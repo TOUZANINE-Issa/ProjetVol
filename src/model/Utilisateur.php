@@ -5,6 +5,43 @@ class Utilisateur
 {
     private $nom;
     private $idUtilisateur;
+    private $email;
+    private $mdp;
+    private $date_de_naissance;
+    private $ville;
+    private $prenom;
+    private $role;
+    /**
+     * @return mixed
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * @param mixed $ville
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDeNaissance()
+    {
+        return $this->date_de_naissance;
+    }
+
+    /**
+     * @param mixed $date_de_naissance
+     */
+    public function setDateDeNaissance($date_de_naissance)
+    {
+        $this->date_de_naissance = $date_de_naissance;
+    }
 
     /**
      * @return mixed
@@ -104,10 +141,7 @@ class Utilisateur
         $this->role = $role;
     }
 
-    private $prenom;
-    private $email;
-    private $mdp;
-    private $role;
+
 
     public function __construct(array $donnees)
     {
