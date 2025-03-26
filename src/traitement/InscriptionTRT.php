@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-require_once '../../src/bdd/Bdd.php';
+require_once '../../src/Database/Bdd.php';
 
 $database = new Bdd();
 $bdd = $database->getBdd();
@@ -14,6 +14,7 @@ $bdd = $database->getBdd();
 if (isset($_POST['ok'])) {
     $prenom = isset($_POST['prenom']) && !empty($_POST['prenom']) ? $_POST['prenom'] : null;
     $nom = isset($_POST['nom']) && !empty($_POST['nom']) ? $_POST['nom'] : null;
+    $date_de_naissance = isset($_POST['date_de_naissance']) ? $_POST['date_de_naissance'] : null;
     $email = isset($_POST['email']) && !empty($_POST['email']) ? $_POST['email'] : null;
     $mdp = isset($_POST['mdp']) && !empty($_POST['mdp']) ? $_POST['mdp'] : null;
 

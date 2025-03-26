@@ -1,7 +1,7 @@
 <?php
-require_once '../../src/bdd/Bdd.php';
-require_once '../../src/modele/Utilisateur.php';
-require_once '../../src/repository/UtilisateurRepository.php';
+require_once '../../src/Database/Bdd.php';
+require_once '../../src/model/Utilisateur.php';
+require_once '../../src/Repository/UtilisateurRepository.php';
 
 session_start();
 
@@ -16,8 +16,8 @@ if (isset($_POST['Co'])) {
 
         if (isset($utilisateur["id_utilisateur"])) {
             $_SESSION['user_id'] = $utilisateur['id_utilisateur'];
-            $_SESSION['prenom'] = $utilisateur['prenom'];
             $_SESSION['nom'] = $utilisateur['nom'];
+            $_SESSION['prenom'] = $utilisateur['prenom'];
             $_SESSION['email'] = $utilisateur['email'];
             $_SESSION['role'] = $utilisateur['role'];
 
