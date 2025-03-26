@@ -1,161 +1,95 @@
 <?php
 
-namespace src\modele;
-
-class reservation
+class ReservationRepository
 {
-    private $idreservation;
-    private $ref_user;
-    private $ref_avion;
-    private $nbrPlace;
-    private $destination;
-    private $heureDepart;
-    private $heureArrivee;
-    private $descriptions;
-
-    /**
-     * @return mixed
-     */
-    public function getIdreservation()
+    private $bdd;
+    private $film;
+    public function __construct()
     {
-        return $this->idreservation;
+    $this->bdd = new PDO('mysql:host=localhost;dbname=projetvol', 'root', '');
     }
-
-    /**
-     * @param mixed $idreservation
-     */
-    public function setIdreservation($idreservation)
+    public function ajouterReservation(Reservation $reservation)
     {
-        $this->idreservation = $idreservation;
-    }
+        $sql = "INSERT INTO Reservation (Destination, heureDepart, heureArriver, descriptions,image) 
+            VALUES (:Destination, :heureDepart, :heureArrivee, :descriptions)";
 
-    /**
-     * @return mixed
-     */
-    public function getRefUser()
-    {
-        return $this->ref_user;
-    }
+        $req = $this->bdd->prepare($sql);
 
-    /**
-     * @param mixed $ref_user
-     */
-    public function setRefUser($ref_user)
-    {
-        $this->ref_user = $ref_user;
-    }
+        $result = $req->execute(array(
+            'nom_film' => $reservation->getDestination(),
+            'genre' => $reservation->getHeureDepart(),
+            'description' => $reservation->getHeureArriver(),
+            'duree' => $reservation->getDescriptions(),
+        ));
 
-    /**
-     * @return mixed
-     */
-    public function getRefAvion()
-    {
-        return $this->ref_avion;
-    }
-
-    /**
-     * @param mixed $ref_avion
-     */
-    public function setRefAvion($ref_avion)
-    {
-        $this->ref_avion = $ref_avion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDestination()
-    {
-        return $this->destination;
-    }
-
-    /**
-     * @param mixed $destination
-     */
-    public function setDestination($destination)
-    {
-        $this->destination = $destination;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNbrPlace()
-    {
-        return $this->nbrPlace;
-    }
-
-    /**
-     * @param mixed $nbrPlace
-     */
-    public function setNbrPlace($nbrPlace)
-    {
-        $this->nbrPlace = $nbrPlace;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHeureDepart()
-    {
-        return $this->heureDepart;
-    }
-
-    /**
-     * @param mixed $heureDepart
-     */
-    public function setHeureDepart($heureDepart)
-    {
-        $this->heureDepart = $heureDepart;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHeureArrivee()
-    {
-        return $this->heureArrivee;
-    }
-
-    /**
-     * @param mixed $heureArrivee
-     */
-    public function setHeureArrivee($heureArrivee)
-    {
-        $this->heureArrivee = $heureArrivee;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescriptions()
-    {
-        return $this->descriptions;
-    }
-
-    /**
-     * @param mixed $descriptions
-     */
-    public function setDescriptions($descriptions)
-    {
-        $this->descriptions = $descriptions;
-    }
-
-
-    public function __construct(array $donnees)
-    {
-        $this->hydrate($donnees);
-    }
-    public function hydrate(array $donnees) {
-        foreach ($donnees as $key => $value) {
-            $method = 'set'.ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                // On appelle le setter
-                $this->$method($value);
-            }
+        if ($result) {
+            return true;
+        } else {
+            return false;
         }
-    }
 
 
 }
+
+    public function supprimerReservation($id_reservation)
+    {
+        $sql = "DELETE FROM Reservation WHERE $id_reservation = :id_reservation";
+
+        $req = $this->bdd->prepare($sql);
+
+        $result = $req->execute(array(
+            'id_reservation' => $id_reservation
+        ));
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function modifierReservation(Reservation $reservation)
+    {
+        $sql = "UPDATE Reservation 
+                SET destination = :destination, heureDepart = :heureDepart, heureArrivee = :heureArrivee, 
+                    descriptions = :descriptions,image = COALESCE(NULLIF(:image, ''), image)
+
+                WHERE id_film = :id_film";
+
+        $req = $this->bdd->prepare($sql);
+        $req->execute([
+            'id_reservation' => $reservation->getId_reservation(),
+            'destination' => $reservation->getDestination(),
+            'genre' => $reservation->getHeureDepart(),
+            'description' => $reservation->getHeureArrivee(),
+            'duree' => $reservation->getDescriptions(),
+        ]);
+
+        return $req->rowCount() > 0;
+    }
+
+
+
+
+    public function afficherCatalogue()
+    {
+        $films=[];
+        $bdd = new Bdd();
+        $connexion = $bdd->getbdd();
+        $filmsBdd = $connexion->query("SELECT * FROM film ORDER BY id_film")->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($filmsBdd as $film) {
+            $films[]= new Film([
+                "idFilm"=>$film['id_film'],
+                "nomFilm"=>$film['nom_film'],
+                "duree"=>$film['duree'],
+                "genre"=>$film['genre'],
+                "description"=>$film['description'],
+                "image"=>$film['image'],
+
+            ]);
+        }
+        return $films;
+    }
+}
+// port=3307;
+?>
