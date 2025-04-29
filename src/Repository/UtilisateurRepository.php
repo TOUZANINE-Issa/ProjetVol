@@ -18,9 +18,7 @@ class UtilisateurRepository
             "nom" => $utilisateur->getNom(),
             "prenom" => $utilisateur->getPrenom(),
             "email" => $utilisateur->getEmail(),
-            "mdp" => $hashedPassword,
-            "date_de_naissance" => $utilisateur->getDateDeNaissance(),
-        "ville" => $utilisateur->getVille()
+            "mdp" => $hashedPassword
         ]);
 
         return $success;
