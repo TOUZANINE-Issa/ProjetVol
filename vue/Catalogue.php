@@ -52,7 +52,7 @@ session_start();
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">Catalogue des Films</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Les films disponibles que vous pouvez regarder au Movie Room.</p>
+            <p class="lead fw-normal text-white-50 mb-0">Les Vols sont disponibles vous pouvez regarder.</p>
         </div>
     </div>
 </header>

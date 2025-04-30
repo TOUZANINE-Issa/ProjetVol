@@ -4,10 +4,12 @@ class ReservationRepository
 {
     private $bdd;
     private $film;
+
     public function __construct()
     {
-    $this->bdd = new PDO('mysql:host=localhost;dbname=projetvol', 'root', '');
+        $this->bdd = new PDO('mysql:host=localhost;dbname=projetvol', 'root', '');
     }
+
     public function ajouterReservation(Reservation $reservation)
     {
         $sql = "INSERT INTO Reservation (Destination, heureDepart, heureArriver, descriptions,image) 
@@ -29,7 +31,7 @@ class ReservationRepository
         }
 
 
-}
+    }
 
     public function supprimerReservation($id_reservation)
     {
@@ -69,27 +71,32 @@ class ReservationRepository
     }
 
 
-
-
     public function afficherCatalogue()
     {
-        $films=[];
+        // Tableau pour stocker les objets
+        $reservations = [];
+
+        // Connexion à la base de données
         $bdd = new Bdd();
         $connexion = $bdd->getbdd();
-        $filmsBdd = $connexion->query("SELECT * FROM film ORDER BY id_film")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($filmsBdd as $film) {
-            $films[]= new Film([
-                "idFilm"=>$film['id_film'],
-                "nomFilm"=>$film['nom_film'],
-                "duree"=>$film['duree'],
-                "genre"=>$film['genre'],
-                "description"=>$film['description'],
-                "image"=>$film['image'],
 
-            ]);
+        // Récupérer les réservations depuis la base de données
+        $volsBdd = $connexion->query("SELECT * FROM reservation ORDER BY id_reservation")->fetchAll(PDO::FETCH_ASSOC);
+
+        // Parcourir chaque ligne de résultats
+        foreach ($volsBdd as $vol) {
+            // Créer une nouvelle instance de Reservation et l'ajouter au tableau
+            $reservations[] = new Reservation(
+                $vol['id_reservation'],
+                $vol['heureDepart'],
+                $vol['heureArriver']
+            );
         }
-        return $films;
+
+        // Retourner le tableau des objets Reservation
+        return $reservations;
     }
 }
+
 // port=3307;
 ?>
