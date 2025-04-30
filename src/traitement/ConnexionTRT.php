@@ -22,21 +22,21 @@ if (isset($_POST['Co'])) {
             $_SESSION['nom'] = $utilisateur['nom'];
             $_SESSION['prenom'] = $utilisateur['prenom'];
             $_SESSION['email'] = $utilisateur['email'];
-            $_SESSION['role'] = $utilisateur['role'];
+            $_SESSION['mdp'] = $utilisateur['mdp'];
 
             // Rediriger vers index.html dans le dossier vue
-            header('Location: ../../vue/index.html');
+            header('Location: index.html');
             exit();
         } else {
             // Message en cas d'échec de la connexion
             echo "Email ou mot de passe incorrect.";
-            header('Location: ../../vue/Connexion.html');
+            header('Location: ../../index.html');
             exit();
         }
     } else {
         // Message en cas d'email invalide
         echo "Email invalide.";
-        header('Location: ../../vue/Connexion.html');
+        header('Location: ../../vue/Inscription.html');
         exit();
     }
 }
