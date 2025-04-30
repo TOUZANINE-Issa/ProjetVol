@@ -3,7 +3,6 @@
 class ReservationRepository
 {
     private $bdd;
-    private $film;
 
     public function __construct()
     {
@@ -12,16 +11,15 @@ class ReservationRepository
 
     public function ajouterReservation(Reservation $reservation)
     {
-        $sql = "INSERT INTO Reservation (Destination, heureDepart, heureArriver, descriptions,image) 
-            VALUES (:Destination, :heureDepart, :heureArrivee, :descriptions)";
+        $sql = "INSERT INTO Reservation (Destination, heureDepart, heureArriver) 
+            VALUES (:Destination, :heureDepart, :heureArrivee)";
 
         $req = $this->bdd->prepare($sql);
 
         $result = $req->execute(array(
-            'nom_film' => $reservation->getDestination(),
-            'genre' => $reservation->getHeureDepart(),
-            'description' => $reservation->getHeureArriver(),
-            'duree' => $reservation->getDescriptions(),
+            'Destination' => $reservation->getDestination(),
+            'heureDepart' => $reservation->getHeureDepart(),
+            'heureArriver' => $reservation->getHeureArriver()
         ));
 
         if ($result) {
