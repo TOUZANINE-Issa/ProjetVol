@@ -39,7 +39,7 @@
             <div class="container">
                 <div class="masthead-subheading">Bienvenue sur notre site !</div>
                 <div class="masthead-heading text-uppercase">On va où ?</div>
-                <a class="btn btn-primary btn-xl text-uppercase" href="Connexion.html">Destination</a>
+                <a class="btn btn-primary btn-xl text-uppercase" href="Connexion.html">Inscription/Connection</a>
             </div>
         </header>
         <!-- Services-->
@@ -432,4 +432,21 @@
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
+    <script>
+        document.getElementById('btnConsulterPrix').addEventListener('click', function() {
+            fetch('src/api/prixBilletsAPI.php')
+                .then(response => response.json())
+                .then(data => {
+                    let html = '<ul>';
+                    for (const [ville, prix] of Object.entries(data)) {
+                        html += `<li>${ville}: ${prix} MAD</li>`;
+                    }
+                    html += '</ul>';
+                    const prixDiv = document.getElementById('prixBillets');
+                    prixDiv.innerHTML = html;
+                    prixDiv.style.display = 'block';
+                })
+                .catch(() => alert('Erreur lors de la récupération des prix.'));
+        });
+    </script>
 </html>

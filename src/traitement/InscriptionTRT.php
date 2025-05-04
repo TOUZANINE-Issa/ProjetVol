@@ -7,8 +7,9 @@ $database = new Bdd();
 $bdd = $database->getBdd();
 
 if (isset($_POST['ok'])) {
+    // Extraction des données du formulaire
     extract($_POST);
-    var_dump($_POST);
+    var_dump($_POST); // Pour le débogage, à retirer en production
 
     // Validation de l'e-mail
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -25,6 +26,8 @@ if (isset($_POST['ok'])) {
                 'nom' => $nom,
                 'prenom' => $prenom,
                 'email' => $email,
+                'ville' => $ville,
+                'date_de_naissance' => $dateNaissance, // Utilisez le bon nom de variable ici
                 'mdp' => password_hash($mdp, PASSWORD_BCRYPT),
             ]);
 

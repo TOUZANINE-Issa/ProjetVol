@@ -1,4 +1,3 @@
-
 <?php
 class UtilisateurRepository
 {
@@ -13,15 +12,21 @@ class UtilisateurRepository
     {
         $hashedPassword = password_hash($utilisateur->getMdp(), PASSWORD_DEFAULT);
 
-        $req = $this->bdd->getBdd()->prepare('INSERT INTO utilisateur (prenom, nom, email, mdp) VALUES (:prenom, :nom, :email, :mdp)');
-        $success = $req->execute([
-            "nom" => $utilisateur->getNom(),
-            "prenom" => $utilisateur->getPrenom(),
-            "email" => $utilisateur->getEmail(),
-            "mdp" => $hashedPassword
-        ]);
-
-        return $success;
+        try {
+            $req = $this->bdd->getBdd()->prepare('INSERT INTO utilisateur (prenom, nom, email, date_de_naissance, ville, mdp) VALUES (:prenom, :nom, :email, :date_de_naissance, :ville, :mdp)');
+            $success = $req->execute([
+                "prenom" => $utilisateur->getPrenom(),
+                "nom" => $utilisateur->getNom(),
+                "email" => $utilisateur->getEmail(),
+                "date_de_naissance" => $utilisateur->getDateDeNaissance(),
+                "ville" => $utilisateur->getVille(),
+                "mdp" => $hashedPassword
+            ]);
+            return $success;
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'inscription : " . $e->getMessage();
+            return false;
+        }
     }
 
     public function connexion($email, $mdp)
@@ -30,8 +35,8 @@ class UtilisateurRepository
         $req->execute(['email' => $email]);
 
         $utilisateur = $req->fetch(PDO::FETCH_ASSOC);
-        var_dump($utilisateur);
-        var_dump(password_verify($mdp, $utilisateur['mdp']));
+        // var_dump($utilisateur); // À retirer en production
+        // var_dump(password_verify($mdp, $utilisateur['mdp'])); // À retirer en production
         if ($utilisateur && password_verify($mdp, $utilisateur['mdp'])) {
             return $utilisateur;
         }
@@ -51,30 +56,38 @@ class UtilisateurRepository
         }
         return null;
     }
+
     public function modifierUtilisateur(Utilisateur $utilisateur)
     {
-
-        $req = $this->bdd->getBdd()->prepare('UPDATE utilisateur 
-            SET prenom = :prenom, nom = :nom, email = :email, role = :role
-            WHERE id_utilisateur = :id_utilisateur');
-        return $req->execute([
-            "id_utilisateur" => $utilisateur->getIdUtilisateur(),
-            "nom" => $utilisateur->getNom(),
-            "prenom" => $utilisateur->getPrenom(),
-            "email" => $utilisateur->getEmail(),
-            "role" => $utilisateur->getRole(),
-            "date_de_naissance" => $utilisateur->getDateDeNaissance(),
-            "ville" => $utilisateur->getVille()
-        ]);
-    }
-    public function supprimerUtilisateur(Utilisateur $utilisateur){
-
-        $req = $this->bdd->getBdd()->prepare('DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur');
-
-        return $req->execute([
-            "id_utilisateur" => $utilisateur->getIdUtilisateur(),
-        ]);
+        try {
+            $req = $this->bdd->getBdd()->prepare('UPDATE utilisateur 
+                SET prenom = :prenom, nom = :nom, email = :email, ville = :ville, date_de_naissance = :date_de_naissance
+                WHERE id_utilisateur = :id_utilisateur');
+            return $req->execute([
+                "id_utilisateur" => $utilisateur->getIdUtilisateur(),
+                "nom" => $utilisateur->getNom(),
+                "prenom" => $utilisateur->getPrenom(),
+                "email" => $utilisateur->getEmail(),
+                "ville" => $utilisateur->getVille(),
+                "date_de_naissance" => $utilisateur->getDateDeNaissance()
+            ]);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
+            return false;
+        }
     }
 
+    public function supprimerUtilisateur(Utilisateur $utilisateur)
+    {
+        try {
+            $req = $this->bdd->getBdd()->prepare('DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur');
+            return $req->execute([
+                "id_utilisateur" => $utilisateur->getIdUtilisateur(),
+            ]);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression de l'utilisateur : " . $e->getMessage();
+            return false;
+        }
+    }
 }
 ?>
