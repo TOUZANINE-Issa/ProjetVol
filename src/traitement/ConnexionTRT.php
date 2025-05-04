@@ -25,12 +25,12 @@ if (isset($_POST['Co'])) {
             $_SESSION['mdp'] = $utilisateur['mdp'];
 
             // Rediriger vers index.html dans le dossier vue
-            header('Location: index.html');
+            header('Location:../../ProjetVol/vue/index.html');
             exit();
         } else {
             // Message en cas d'échec de la connexion
             echo "Email ou mot de passe incorrect.";
-            header('Location: ../../index.html');
+            header('Location:./../vue/index.html');
             exit();
         }
     } else {

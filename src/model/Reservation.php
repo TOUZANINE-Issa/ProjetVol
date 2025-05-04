@@ -12,6 +12,7 @@ class reservation
     private $heureArriver;
     private $descriptions;
 
+
     /**
      * @return mixed
      */
@@ -139,7 +140,6 @@ class reservation
     {
         $this->descriptions = $descriptions;
     }
-
 
     public function __construct(array $donnees)
     {

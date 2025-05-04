@@ -12,14 +12,15 @@ class ReservationRepository
     public function ajouterReservation(Reservation $reservation)
     {
         $sql = "INSERT INTO Reservation (Destination, heureDepart, heureArriver) 
-            VALUES (:Destination, :heureDepart, :heureArrivee)";
+        VALUES (:Destination, :heureDepart, :heureArriver)"; // Assurez-vous que le nom du paramètre est cohérent
 
         $req = $this->bdd->prepare($sql);
 
         $result = $req->execute(array(
             'Destination' => $reservation->getDestination(),
             'heureDepart' => $reservation->getHeureDepart(),
-            'heureArriver' => $reservation->getHeureArriver()
+            'heureArriver' => $reservation->getHeureArriver(), // Assurez-vous que le nom du paramètre correspond à celui de la requête
+            'nbrPlace' => $reservation->getNbrPlace()
         ));
 
         if ($result) {
@@ -27,8 +28,6 @@ class ReservationRepository
         } else {
             return false;
         }
-
-
     }
 
     public function supprimerReservation($id_reservation)

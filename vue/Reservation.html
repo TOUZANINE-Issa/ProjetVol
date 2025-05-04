@@ -1,74 +1,195 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Réservation</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Page de Réservation</title>
     <style>
+        /* Reset et base */
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
-            padding: 40px;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 600px;
+            max-height: 600px;
+            overflow: hidden;
+            padding: 1rem;
         }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin: auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        main {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
         }
-        h2 {
+        h1 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0 0 10px;
             text-align: center;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         label {
             display: block;
-            margin-top: 15px;
-            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            text-shadow: 0 0 3px rgba(0,0,0,0.4);
         }
-        input {
+        input[type="text"],
+        input[type="time"],
+        select,
+        input[type="number"] {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            margin-top: 25px;
-            width: 100%;
-            padding: 12px;
-            background-color: #007BFF;
-            color: white;
-            font-size: 16px;
+            padding: 0.5rem 0.6rem;
+            border-radius: 8px;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            transition: box-shadow 0.3s ease;
         }
-        button:hover {
-            background-color: #0056b3;
+        input[type="text"]:focus,
+        input[type="time"]:focus,
+        select:focus,
+        input[type="number"]:focus {
+            box-shadow: 0 0 8px #2575fc;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .button-group button {
+            flex: 1;
+            padding: 0.7rem 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.7);
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+        button#btnReserver {
+            color: #2575fc;
+            background: #fff;
+        }
+        button#btnReserver:hover {
+            background-color: #2575fc;
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(0,123,255,0.75);
+        }
+        button.button-quitter {
+            background: #f44336;
+            color: white;
+            box-shadow: 0 5px 15px rgba(244,67,54,0.7);
+        }
+        button.button-quitter:hover {
+            background-color: #d32f2f;
+            box-shadow: 0 5px 15px rgba(211,47,47,0.85);
+            color: #fff;
+        }
+        .confirmation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.25);
+            border-radius: 10px;
+            color: #0f5132;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            white-space: pre-line;
+        }
+        /* Responsive Mobile */
+        @media (max-width: 320px) {
+            .button-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
+<main>
+    <h1>Réserver un Vol</h1>
+    <form id="reservationForm" novalidate>
+        <label for="destination">Destination</label>
+        <input type="text" id="destination" name="destination" placeholder="Ex : Paris" required minlength="2" maxlength="100" autocomplete="off" />
 
-<div class="container">
-    <h2>Formulaire de Réservation</h2>
-    <form action="../src/traitement/ReservationTRT.php" method="POST">
+        <label for="heureDepart">Heure de départ</label>
+        <input type="time" id="heureDepart" name="heureDepart" required />
 
-        <label for="id_reservation">ID de réservation :</label>
-        <input type="text" id="id_reservation" name="id_reservation" required>
+        <label for="heureArriver">Heure d'arrivée</label>
+        <input type="time" id="heureArriver" name="heureArriver" required />
 
-        <label for="destination">Destination :</label>
-        <input type="text" id="destination" name="destination" required>
+        <label for="avion">Choisir un avion</label>
+        <select id="avion" name="avion" required>
+            <option value="" disabled selected>-- Sélectionnez un avion --</option>
+            <option value="1">Avion A320</option>
+            <option value="2">Avion Boeing 737</option>
+            <option value="3">Avion Embraer E190</option>
+        </select>
 
-        <label for="heureArriver">Heure d'arrivée :</label>
-        <input type="time" id="heureArriver" name="heureArriver" required>
+        <label for="nbrPlace">Nombre de places</label>
+        <input type="number" id="nbrPlace" name="nbrPlace" min="1" max="10" value="1" required />
 
-        <label for="heureDepart">Heure de départ :</label>
-        <input type="time" id="heureDepart" name="heureDepart" required>
-
-        <button type="submit">Réserver</button>
+        <div class="button-group">
+            <button type="submit" id="btnReserver">Réserver</button>
+            <button type="button" class="button-quitter" id="btnQuitter">Quitter</button>
+        </div>
     </form>
-</div>
+    <div class="confirmation" id="confirmationMessage"></div>
+</main>
 
+<script>
+    // Gestion simple de la soumission du formulaire
+    document.getElementById('reservationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = e.target;
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const destination = form.destination.value.trim();
+        const heureDepart = form.heureDepart.value;
+        const heureArriver = form.heureArriver.value;
+        const avion = form.avion.value;
+        const nbrPlace = form.nbrPlace.value;
+
+        // Validation simple: heureArriver doit être après heureDepart
+        if (heureArriver <= heureDepart) {
+            alert("L'heure d'arrivée doit être après l'heure de départ.");
+            return;
+        }
+
+        // Affichage message confirmation
+        const msgBox = document.getElementById('confirmationMessage');
+        msgBox.style.display = 'block';
+        msgBox.textContent = `Réservation enregistrée :\nDestination: ${destination}\nDépart: ${heureDepart}, Arrivée: ${heureArriver}\nAvion: ${form.avion.options[form.avion.selectedIndex].text}\nNombre de places: ${nbrPlace}`;
+
+        // Optionnel: reset formulaire après confirmation
+        form.reset();
+        form.avion.selectedIndex = 0;
+    });
+
+    // Bouton quitter redirige vers index.html
+    document.getElementById('btnQuitter').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+</script>
 </body>
 </html>
