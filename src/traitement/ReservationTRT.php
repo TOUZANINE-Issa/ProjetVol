@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<p><strong>Destination :</strong> " . $destination . "</p>";
     echo "<p><strong>Heure d'arrivée :</strong> " . $heureArriver . "</p>";
     echo "<p><strong>Heure de départ :</strong> " . $heureDepart . "</p>";
-    ////header('Location: index.html');
+    //header('Location: index.html');
     exit();
 } else {
     echo "Aucune donnée reçue.";
