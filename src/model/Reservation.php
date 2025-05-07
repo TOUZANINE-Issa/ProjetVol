@@ -4,7 +4,7 @@
 class reservation
 {
     private $id_reservation;
-    private $ref_user;
+    private $ref_utilisateur;
     private $ref_avion;
     private $nbrPlace;
     private $destination;
@@ -18,7 +18,7 @@ class reservation
      */
     public function getId_reservation()
     {
-        return $this->idreservation;
+        return $this->id_reservation;
     }
 
     /**
@@ -32,17 +32,17 @@ class reservation
     /**
      * @return mixed
      */
-    public function getRefUser()
+    public function getRefUtilisateur()
     {
-        return $this->ref_user;
+        return $this->ref_utilisateur;
     }
 
     /**
      * @param mixed $ref_user
      */
-    public function setRefUser($ref_user)
+    public function setRefUtilisateur($ref_utilisateur)
     {
-        $this->ref_user = $ref_user;
+        $this->ref_utilisateur = $ref_utilisateur;
     }
 
     /**

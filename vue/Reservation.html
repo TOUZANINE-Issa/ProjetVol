@@ -124,9 +124,17 @@
 <body>
 <main>
     <h1>Réserver un Vol</h1>
-    <form id="reservationForm" novalidate>
+    <form method="POST" action="../src/traitement/ReservationTRT.php">
         <label for="destination">Destination</label>
-        <input type="text" id="destination" name="destination" placeholder="Ex : Paris" required minlength="2" maxlength="100" autocomplete="off" />
+        <select id="destination" name="destination" required>
+            <option value="" disabled selected>-- Sélectionnez une destination --</option>
+            <option value="1">Marrakech</option>
+            <option value="2">Tanger</option>
+            <option value="3">Casablanca</option>
+            <option value="4">Nador</option>
+            <option value="5">Ouarzazate</option>
+            <option value="6">Ouezzane</option>
+        </select>
 
         <label for="heureDepart">Heure de départ</label>
         <input type="time" id="heureDepart" name="heureDepart" required />
@@ -138,8 +146,8 @@
         <select id="avion" name="avion" required>
             <option value="" disabled selected>-- Sélectionnez un avion --</option>
             <option value="1">Avion A320</option>
-            <option value="2">Avion Boeing 737</option>
-            <option value="3">Avion Embraer E190</option>
+            <option value="2">Avion A340</option>
+            <option value="3">Avion A380</option>
         </select>
 
         <label for="nbrPlace">Nombre de places</label>
@@ -179,7 +187,7 @@
         // Affichage message confirmation
         const msgBox = document.getElementById('confirmationMessage');
         msgBox.style.display = 'block';
-        msgBox.textContent = `Réservation enregistrée :\nDestination: ${destination}\nDépart: ${heureDepart}, Arrivée: ${heureArriver}\nAvion: ${form.avion.options[form.avion.selectedIndex].text}\nNombre de places: ${nbrPlace}`;
+        msgBox.textContent = `Réservation enregistrée :\nAvion: ${form.destination.options[form.destination.selectedIndex].text}\nDépart: ${heureDepart}, Arrivée: ${heureArriver}\nAvion: ${form.avion.options[form.avion.selectedIndex].text}\nNombre de places: ${nbrPlace}`;
 
         // Optionnel: reset formulaire après confirmation
         form.reset();

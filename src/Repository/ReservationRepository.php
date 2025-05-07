@@ -11,16 +11,19 @@ class ReservationRepository
 
     public function ajouterReservation(Reservation $reservation)
     {
-        $sql = "INSERT INTO Reservation (Destination, heureDepart, heureArriver) 
-        VALUES (:Destination, :heureDepart, :heureArriver)"; // Assurez-vous que le nom du paramètre est cohérent
+        $sql = "INSERT INTO reservation (Destination, heureDepart, heureArriver, nbrPlace,ref_utilisateur,ref_avion) 
+        VALUES (:Destination, :heureDepart, :heureArriver, :nbrPlace)"; // Assurez-vous que le nom du paramètre est cohérent
 
         $req = $this->bdd->prepare($sql);
 
         $result = $req->execute(array(
             'Destination' => $reservation->getDestination(),
             'heureDepart' => $reservation->getHeureDepart(),
-            'heureArriver' => $reservation->getHeureArriver(), // Assurez-vous que le nom du paramètre correspond à celui de la requête
-            'nbrPlace' => $reservation->getNbrPlace()
+            'heureArriver' => $reservation->getHeureArriver(),
+            'nbrPlace' => $reservation->getNbrPlace(),
+            'ref_utilisateur' => $reservation->getRefUtilisateur(),
+            'ref_avion' => $reservation->getRefAvion()
+
         ));
 
         if ($result) {

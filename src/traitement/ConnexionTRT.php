@@ -18,7 +18,7 @@ if (isset($_POST['Co'])) {
         // Si l'utilisateur est trouvé
         if (isset($utilisateur["id_utilisateur"])) {
             // Stocker les informations de l'utilisateur dans la session
-            $_SESSION['user_id'] = $utilisateur['id_utilisateur'];
+            $_SESSION['id_utilisateur'] = $utilisateur['id_utilisateur'];
             $_SESSION['nom'] = $utilisateur['nom'];
             $_SESSION['prenom'] = $utilisateur['prenom'];
             $_SESSION['email'] = $utilisateur['email'];

@@ -27,7 +27,7 @@ if (isset($_POST['ok'])) {
                 'prenom' => $prenom,
                 'email' => $email,
                 'ville' => $ville,
-                'date_de_naissance' => $dateNaissance, // Utilisez le bon nom de variable ici
+                'date_de_naissance' => $dateNaissance, 
                 'mdp' => password_hash($mdp, PASSWORD_BCRYPT),
             ]);
 

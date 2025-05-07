@@ -1,8 +1,12 @@
 <?php
 require_once '../../src/Database/Bdd.php';
 require_once '../../src/model/Reservation.php';
+require_once '../../src/model/Avion.php';
+require_once '../../src/model/Utilisateur.php';
 require_once '../../src/Repository/ReservationRepository.php';
 
+$database = new Bdd();
+$bdd = $database->getBdd();
 // Vérifie si les données sont bien envoyées par la méthode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération et sécurisation des données du formulaire
@@ -18,7 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'destination' => $destination,
         'heureArriver' => $heureArriver,
         'heureDepart' => $heureDepart,
-        'nbrPlace' => $nbrPlace
+        'nbrPlace' => $nbrPlace,
+        'ref_utilisateur' => $_SESSION['id_utilisateur'],
+        'ref_avion' => $_SESSION['id_avion']
     ];
 
     // Création d'une instance de Reservation avec les données
